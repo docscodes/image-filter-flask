@@ -19,29 +19,29 @@ filters_available = [
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    response = {
-        "filters_available": filters_available,
-        "usage": {"http_method": "POST", "URL": "/<filter_available>/"},
-    }
+  response = {
+      "filters_available": filters_available,
+      "usage": {"http_method": "POST", "URL": "/<filter_available>/"},
+  }
 
-    return jsonify(response)
+  return jsonify(response)
 
 
 @app.post("/<filter>")
 def image_filter(filter):
-    if filter not in filters_available:
-        response = {"error": "incorrect filter"}
-        return jsonify(response)
+  if filter not in filters_available:
+    response = {"error": "incorrect filter"}
+    return jsonify(response)
 
-    file = request.files["image"]
-    if not file:
-        response = {"error": "no file provided"}
-        return jsonify(response)
+  file = request.files["image"]
+  if not file:
+    response = {"error": "no file provided"}
+    return jsonify(response)
 
-    filtered_image = apply_filter(file, filter)
+  filtered_image = apply_filter(file, filter)
 
-    return send_file(filtered_image, mimetype="image/JPEG")
+  return send_file(filtered_image, mimetype="image/JPEG")
 
 
 if __name__ == "__main__":
-    app.run()
+  app.run()
